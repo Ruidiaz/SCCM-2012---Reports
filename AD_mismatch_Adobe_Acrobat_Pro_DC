@@ -1,0 +1,7 @@
+select SMS_R_System.ResourceId, SMS_R_System.Name, SMS_R_System.IsAssignedToUser, SMS_G_System_COMPUTER_SYSTEM.UserName, SMS_R_System.LastLogonUserName, SMS_G_System_OPERATING_SYSTEM.Caption from  SMS_R_System inner join SMS_G_System_ADD_REMOVE_PROGRAMS on SMS_G_System_ADD_REMOVE_PROGRAMS.ResourceID = SMS_R_System.ResourceId inner join SMS_G_System_COMPUTER_SYSTEM on SMS_G_System_COMPUTER_SYSTEM.ResourceID = SMS_R_System.ResourceId inner join SMS_G_System_OPERATING_SYSTEM on SMS_G_System_OPERATING_SYSTEM.ResourceID = SMS_R_System.ResourceId where SMS_R_System.ResourceId not in (select SMS_R_System.ResourceId from 
+SMS_R_System inner join SMS_UserMachineRelationship on
+SMS_UserMachineRelationship.ResourceID = SMS_R_System.ResourceId where 
+SMS_UserMachineRelationship.Types = 1 AND
+SMS_UserMachineRelationship.UniqueUserName in
+(select SMS_R_USER.UniqueUserName from SMS_R_User where
+SMS_R_User.UserGroupName =  "EMEA\\[CORPUK] SCCM - APP USER - ADOBE Acrobat Pro DC" or SMS_R_User.UserGroupName = "EMEA\\[CORPUK] SCCM - APP USER - ADOBE CC Complete")) and SMS_G_System_ADD_REMOVE_PROGRAMS.ProdID = "{AC76BA86-1033-FFFF-7760-0C0F074E4100}"
